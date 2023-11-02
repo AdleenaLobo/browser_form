@@ -1,0 +1,20 @@
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background-color: rgb(224, 224, 224);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  border: 1px solid black;
+}
+
+input:invalid {
+  border: 2px dashed rgb(233, 138, 138);
+}
