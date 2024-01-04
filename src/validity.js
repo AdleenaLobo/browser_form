@@ -15,13 +15,31 @@ function loadListener() {
 function addListenterToElem() {
   email.addEventListener("focus", checkEmail);
   email.addEventListener("input", checkEmail);
+  country.addEventListener("focus", checkCountry);
   country.addEventListener("input", checkCountry);
+  zipcode.addEventListener("focus", checkZipcode);
   zipcode.addEventListener("input", checkZipcode);
   password.addEventListener("focus", checkPassword);
   password.addEventListener("input", checkPassword);
   confirmpass.addEventListener("focus", checkConfirmPass);
   confirmpass.addEventListener("input", checkConfirmPass);
-  submit.addEventListener("click", checkSubmit);
+  form.addEventListener("submit", checkAll.bind(null, Event));
+}
+function checkAll(Event) {
+  if (
+    email.validity.valid &&
+    country.validity.valid &&
+    zipcode.validity.valid &&
+    password.validity.valid &&
+    confirmpass.validity.valid
+  ) {
+    let body = document.querySelector(".submit");
+    form.style.visibility = "hidden";
+    let temp = document.createElement("div");
+    temp.textContent = "Congratulations";
+    body.appendChild(temp);
+    Event.preventDefault();
+  }
 }
 
 function checkEmail() {
@@ -43,8 +61,31 @@ function checkPattern() {
   }
   email.reportValidity();
 }
-function checkCountry() {}
-function checkZipcode() {}
+function checkCountry() {
+  if (country.validity.valueMissing) {
+    country.setCustomValidity("Is a required feild");
+  } else {
+    country.setCustomValidity("");
+  }
+  country.reportValidity();
+}
+function checkZipcode() {
+  if (zipcode.validity.valueMissing) {
+    zipcode.setCustomValidity("Is a required feild");
+  } else {
+    zipcode.setCustomValidity("");
+    checkType();
+  }
+  zipcode.reportValidity();
+}
+function checkType() {
+  if (zipcode.validity.typeMismatch) {
+    zipcode.setCustomValidity("Please enter only numbers");
+  } else {
+    zipcode.setCustomValidity("");
+  }
+  zipcode.reportValidity();
+}
 function checkPassword() {
   if (password.validity.valueMissing) {
     password.setCustomValidity("Is a required feild");
@@ -72,6 +113,5 @@ function checkIfSame() {
   }
   confirmpass.reportValidity();
 }
-function checkSubmit() {}
 
 export { loadListener };
